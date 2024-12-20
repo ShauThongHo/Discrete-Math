@@ -1,11 +1,13 @@
 import folium
-import pandas as pd
-import requests
-import streamlit as st
 
-# Load the CSV file
-csv_file = 'tourist_attractions_malaysia.csv'
-tourist_attractions_malaysia = pd.read_csv(csv_file)
+# List of tourist attractions in Malaysia with their coordinates and types
+tourist_attractions_malaysia = [
+    {"name": "Petronas Twin Towers", "latitude": 3.1578, "longitude": 101.7123, "type": "natural wonder"},
+    {"name": "Batu Caves", "latitude": 3.2379, "longitude": 101.6831, "type": "historical site"},
+    {"name": "Mount Kinabalu", "latitude": 6.0750, "longitude": 116.5580, "type": "natural wonder"},
+    {"name": "George Town", "latitude": 5.4141, "longitude": 100.3288, "type": "historical site"},
+    {"name": "Langkawi Sky Bridge", "latitude": 6.3810, "longitude": 99.6653, "type": "natural wonder"}
+]
 
 # Create a map centered around Malaysia
 map_malaysia = folium.Map(location=[4.2105, 101.9758], zoom_start=6)
@@ -23,22 +25,22 @@ natural_wonders = folium.FeatureGroup(name="Natural Wonders")
 amusement_parks = folium.FeatureGroup(name="Amusement Parks")
 
 # Add markers for each tourist attraction
-for index, row in tourist_attractions_malaysia.iterrows():
-    marker_color = marker_colors.get(row["type"], "gray")  # Default to gray if type is not found
-    popup_text = f"<b>{row['name']}</b><br>Type: {row['type']}"  # Include type information in the popup instead
+for attraction in tourist_attractions_malaysia:
+    marker_color = marker_colors.get(attraction["type"], "gray")  # Default to gray if type is not found
+    popup_text = f"<b>{attraction['name']}</b><br>Type: {attraction['type']}"  # Include type information in the popup instead
     marker = folium.Marker(
-        location=[row["latitude"], row["longitude"]],
+        location=[attraction["latitude"], attraction["longitude"]],
         popup=popup_text,
-        tooltip=row["name"],
+        tooltip=attraction["name"],
         icon=folium.Icon(color=marker_color)
     )
     
     # Add marker to the appropriate feature group
-    if row["type"] == "historical site":
+    if attraction["type"] == "historical site":
         historical_sites.add_child(marker)
-    elif row["type"] == "natural wonder":
+    elif attraction["type"] == "natural wonder":
         natural_wonders.add_child(marker)
-    elif row["type"] == "amusement park":
+    elif attraction["type"] == "amusement park":
         amusement_parks.add_child(marker)
 
 # Add feature groups to the map
@@ -68,14 +70,8 @@ folium.GeoJson(
     }
 ).add_to(map_malaysia)
 
-# Save the map to an HTML file
-map_malaysia.save("tourist_attractions_malaysia_map_with_customizations.html")
+# Save the map to an HTML file with an absolute path
+output_file = r"tourist_attractions_malaysia_map_with_customizations.html"
+map_malaysia.save(output_file)
 
-# Display the total number of attractions on the map using Streamlit
-st.title("Tourist Attractions in Malaysia")
-st.write(f"Total number of attractions: {len(tourist_attractions_malaysia)}")
-
-# Display the map in Streamlit
-st.components.v1.html(open("tourist_attractions_malaysia_map_with_customizations.html").read(), height=600)
-
-print("Customized interactive map with GeoJSON has been created and saved to 'tourist_attractions_malaysia_map_with_customizations.html'.")
+print(f"Customized interactive map with GeoJSON has been created and saved to '{output_file}'.")
