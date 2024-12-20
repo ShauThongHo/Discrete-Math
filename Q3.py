@@ -1,6 +1,7 @@
 import folium
 import pandas as pd
 import requests
+import streamlit as st
 
 # Load the CSV file
 csv_file = 'tourist_attractions_malaysia.csv'
@@ -31,7 +32,7 @@ for index, row in tourist_attractions_malaysia.iterrows():
         tooltip=row["name"],
         icon=folium.Icon(color=marker_color)
     )
-
+    
     # Add marker to the appropriate feature group
     if row["type"] == "historical site":
         historical_sites.add_child(marker)
@@ -69,5 +70,12 @@ folium.GeoJson(
 
 # Save the map to an HTML file
 map_malaysia.save("tourist_attractions_malaysia_map_with_customizations.html")
+
+# Display the total number of attractions on the map using Streamlit
+st.title("Tourist Attractions in Malaysia")
+st.write(f"Total number of attractions: {len(tourist_attractions_malaysia)}")
+
+# Display the map in Streamlit
+st.components.v1.html(open("tourist_attractions_malaysia_map_with_customizations.html").read(), height=600)
 
 print("Customized interactive map with GeoJSON has been created and saved to 'tourist_attractions_malaysia_map_with_customizations.html'.")

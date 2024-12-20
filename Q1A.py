@@ -1,38 +1,31 @@
-def smallest_prime_factors(n):
-    spf = list(range(n + 1))  # Smallest prime factor for each number
-    for i in range(2, int(n**0.5) + 1):
-        if spf[i] == i:  # i is prime
-            for j in range(i * i, n + 1, i):
-                if spf[j] == j:  # Update only if it hasn't been updated
-                    spf[j] = i
-    return spf
+# Done
+import time, math
 
-def calculate_average_f1(N):
-    spf = smallest_prime_factors(N)
-    total_sum = 0.0
+def list_primality(n):
+	result = [True] * (n + 1)
+	result[0] = result[1] = False
+	for i in range(int(math.sqrt(n)) + 1):
+		if result[i]:
+			for j in range(2 * i, len(result), i):
+				result[j] = False
+	return result
+
+def list_primes(n):
+	return [i for (i, isprime) in enumerate(list_primality(n)) if isprime]
+	
+def f(K):
+    primes = list_primes(10**6)
+    total = 0
+    curr = 1
+    for p in primes:
+        total += curr*(1/((p**(K+1))*(p-1)))
+        curr *= (p - 1)/p
+    return round(total, 12)
     
-    for n in range(2, N + 1):
-        num = n
-        p = spf[n]  # Smallest prime factor
-        alpha = 0
-        
-        # Calculate alpha(n)
-        while num % p == 0:
-            num //= p
-            alpha += 1
-        
-        # Calculate f_1(n)
-        f_1 = (alpha - 1) / p
-        total_sum += f_1
-
-    average_f_1 = total_sum / (N - 1)  # N - 1 because we start from n=2
-    return average_f_1
-
-def main():
-    N = 1000000  # Set a large N for better accuracy
-    average_f_1 = calculate_average_f1(N)
-    
-    print(f"Average value of f_1(n) from 2 to {N}: {average_f_1:.12f}")
-
 if __name__ == "__main__":
-    main()
+  while True:
+    a = int(input("Input an integer: "))
+    start_time = time.time()
+    print(f(a))
+    break
+  print("--- %s seconds ---" % (time.time() - start_time))
