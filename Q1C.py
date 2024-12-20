@@ -1,3 +1,4 @@
+# Done
 def count_divisors(limit):
     divisors = [0] * (limit + 1)
     for i in range(1, limit + 1):
@@ -16,4 +17,4 @@ def consecutive_divisors(limit):
 # Set the limit to 10^7
 limit = 10**7
 result = consecutive_divisors(limit)
-print(result)
+print(result) # 986262

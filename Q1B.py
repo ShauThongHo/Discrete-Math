@@ -1,25 +1,19 @@
-from fractions import Fraction
-
-def generate_inverse_squares(limit):
-    return [Fraction(1, i**2) for i in range(2, limit + 1)]
-
-def find_combinations(inverse_squares, target, start=0, current_sum=Fraction(0), current_combination=[]):
+def find_sums(target, current_sum=0, start=1):
     if current_sum == target:
-        return [current_combination]
-    if current_sum > target or start == len(inverse_squares):
-        return []
+        return 1
+    if current_sum > target:
+        return 0
     
-    combinations = []
-    for i in range(start, len(inverse_squares)):
-        new_combination = current_combination + [inverse_squares[i]]
-        combinations += find_combinations(inverse_squares, target, i + 1, current_sum + inverse_squares[i], new_combination)
-    
-    return combinations
+    count = 0
+    for i in range(start, 100):  # Adjust upper limit as necessary
+        count += find_sums(target, current_sum + 1/(i*i), i + 1)
+    return count
 
-# Set the limit to 80
-limit = 80
-inverse_squares = generate_inverse_squares(limit)
-target = Fraction(1, 2)
+# Main function to invoke the solution
+def main():
+    target = 0.5
+    result = find_sums(target)
+    print(f"Number of ways to write 1/2 as a sum of inverse squares: {result}")
 
-combinations = find_combinations(inverse_squares, target)
-print(f"Number of ways to write 1/2 as a sum of inverse squares: {len(combinations)}")
+if __name__ == "__main__":
+    main()
