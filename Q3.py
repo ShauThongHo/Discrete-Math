@@ -66,10 +66,10 @@ folium.GeoJson(
         geojson_data,
         name="Malaysia",
         style_function=lambda feature: {
-            'fillColor': 'yellow',
+            'fillColor': 'blue',
             'color': 'black',
-            'weight': 2,
-            'fillOpacity': 0.5
+            'weight': 10,
+            'fillOpacity': 2.5
         }
     ).add_to(map_malaysia)
 
