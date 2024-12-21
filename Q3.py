@@ -1,7 +1,5 @@
-from pip._internal import main
-main.main(['install', 'folium'])
-from streamlit_folium import folium_static
 import streamlit as st
+from streamlit_folium import st_static
 import requests
 import folium
 
