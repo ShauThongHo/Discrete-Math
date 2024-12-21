@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_folium import st_static
+from streamlit_folium import folium_static
 import requests
 import folium
 
