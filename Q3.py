@@ -1,8 +1,7 @@
-pip install folium
-
-import folium
 import streamlit as st
+from streamlit_folium import folium_static
 import requests
+import folium
 
     # List of tourist attractions in Malaysia with their coordinates and types
 tourist_attractions_malaysia = [
