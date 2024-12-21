@@ -1,4 +1,5 @@
-pip install streamlit-folium
+from pip._internal import main
+main.main(['install', 'folium'])
 from streamlit_folium import folium_static
 import streamlit as st
 import requests
